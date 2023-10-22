@@ -345,21 +345,25 @@ if menu == "Users🧑":
     st.pyplot(fig)
 
     st.header("Sebaran pengguna")
-    geometry = [Point(xy) for xy in zip(geo['geolocation_lng'], geo['geolocation_lat'])]
-    gdf = GeoDataFrame(geo, geometry=geometry)
+    geographical = st.checkbox('Lihat geografis sebaran users')
 
-    fig, ax = plt.subplots(1, figsize=(8,10))
-    ax.set_axis_on()
+    if geographical:
 
-    # #this is a simple map that goes with geopandas
-    brazil = gpd.read_file("brazil/gadm36_BRA_1.shp")
-    gdf.plot(ax=brazil.plot(ax=ax,cmap='YlOrRd'), marker='o', color='red', markersize=2);
+        geometry = [Point(xy) for xy in zip(geo['geolocation_lng'], geo['geolocation_lat'])]
+        gdf = GeoDataFrame(geo, geometry=geometry)
+
+        fig, ax = plt.subplots(1, figsize=(8,10))
+        ax.set_axis_on()
+
+        # #this is a simple map that goes with geopandas
+        brazil = gpd.read_file("brazil/gadm36_BRA_1.shp")
+        gdf.plot(ax=brazil.plot(ax=ax,cmap='YlOrRd'), marker='o', color='red', markersize=2);
 
 
-    points = brazil.copy()
-    # change the geometry
-    points.geometry = points['geometry'].centroid
-    # Plot the labels
-    for x, y, label in zip(points.geometry.x, points.geometry.y, points.NAME_1):
-        ax.annotate(label, xy=(x, y), xytext=(3, 3), alpha=1, textcoords="offset points",color='black')
-    st.pyplot(fig)
+        points = brazil.copy()
+        # change the geometry
+        points.geometry = points['geometry'].centroid
+        # Plot the labels
+        for x, y, label in zip(points.geometry.x, points.geometry.y, points.NAME_1):
+            ax.annotate(label, xy=(x, y), xytext=(3, 3), alpha=1, textcoords="offset points",color='black')
+        st.pyplot(fig)
