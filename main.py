@@ -330,7 +330,7 @@ if menu == "Users🧑":
         st.dataframe(data_customer.head(range), width=700)
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
-    sns.barplot(x="customers", y="city", data=data_customer,
+    sns.barplot(x="customers", y="city", data=data_customer.head(5),
                 label="Total", palette=colors)
     st.pyplot(fig)
 
@@ -340,7 +340,7 @@ if menu == "Users🧑":
         st.dataframe(data_seller.head(range), width=700)
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
-    sns.barplot(x="seller", y="city", data=data_seller,
+    sns.barplot(x="seller", y="city", data=data_seller.head(5),
                 label="Total", palette=colors)
     st.pyplot(fig)
 
