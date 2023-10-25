@@ -2,20 +2,19 @@
 import pandas as pd
 
 customers = pd.read_csv("../data/customers_dataset.csv")
-geo = pd.read_csv("../data/geolocation_dataset.csv")
+geolocation = pd.read_csv("../data/geolocation_dataset.csv")
 orders = pd.read_csv("../data/orders_dataset.csv")
 order_items = pd.read_csv("../data/order_items_dataset.csv")
 order_payments = pd.read_csv("../data/order_payments_dataset.csv")
 order_reviews = pd.read_csv("../data/order_reviews_dataset.csv")
 products = pd.read_csv("../data/products_dataset.csv")
-product_cat = pd.read_csv("../data/product_category_name_translation.csv")
 sellers = pd.read_csv("../data/sellers_dataset.csv")
 
-table = [customers,geo,orders,order_items,order_items,order_payments,order_reviews,products,product_cat,sellers]
-table_name = ["customers","geo","orders","order_items","order_items","order_payments","order_reviews","products","product_cat","sellers"]
+table = [customers,geolocation,orders,order_items,order_items,order_payments,order_reviews,products,sellers]
+table_name = ["customers","geolocation","orders","order_items","order_items","order_payments","order_reviews","products","sellers"]
 
 # Delete duplicate data
-geo.drop_duplicates(inplace=True)
+geolocation.drop_duplicates(inplace=True)
 
 indexData = products[products.product_weight_g.isna() == True].index
 # Satu product bernama bebes dan satu product tidak memiliki name
@@ -79,12 +78,12 @@ products["product_category_name"] = products["product_category_name"].map(lambda
 order_payments["payment_type"] = order_payments["payment_type"].map(lambda x: " ".join(x.split("_")))
 
 # Dari hasil plot global kita lihat bahwa ada data yang outliers dan kita harus menghapusnya
-indexGeoOut = geo.query("geolocation_lng > -30 or geolocation_lat > 10").index
-geo.drop(index=indexGeoOut, inplace=True)
+indexGeoOut = geolocation.query("geolocation_lng > -30 or geolocation_lat > 10").index
+geolocation.drop(index=indexGeoOut, inplace=True)
 # Dari hasil plot lebih dekat kita lihat bahwa ada data yang berada di air, jadi kita harus menghapusnya
-indexGeoOut = geo.query("(geolocation_lng < -58 and geolocation_lat < -30) or geolocation_lng > -33").index
-geo.drop(index=indexGeoOut, inplace=True)
+indexGeoOut = geolocation.query("(geolocation_lng < -58 and geolocation_lat < -30) or geolocation_lng > -33").index
+geolocation.drop(index=indexGeoOut, inplace=True)
 
 # UPDATE DATA
 for i in range(len(table)):
-  table[i].to_csv(f"../data/{table_name[i]}.csv")
+  table[i].to_csv(f"../data/{table_name[i]}_dataset.csv")

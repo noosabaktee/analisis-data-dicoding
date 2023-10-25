@@ -1,15 +1,14 @@
 # import library
 import pandas as pd
 
-customers = pd.read_csv("./data/customers.csv")
-geo = pd.read_csv("./data/geo.csv")
-orders = pd.read_csv("./data/orders.csv")
-order_items = pd.read_csv("./data/order_items.csv")
-order_payments = pd.read_csv("./data/order_payments.csv")
-order_reviews = pd.read_csv("./data/order_reviews.csv")
-products = pd.read_csv("./data/products.csv")
-product_cat = pd.read_csv("./data/product_cat.csv")
-sellers = pd.read_csv("./data/sellers.csv")
+customers = pd.read_csv("./data/customers_dataset.csv")
+geolocation = pd.read_csv("./data/geolocation_dataset.csv")
+orders = pd.read_csv("./data/orders_dataset.csv")
+order_items = pd.read_csv("./data/order_items_dataset.csv")
+order_payments = pd.read_csv("./data/order_payments_dataset.csv")
+order_reviews = pd.read_csv("./data/order_reviews_dataset.csv")
+products = pd.read_csv("./data/products_dataset.csv")
+sellers = pd.read_csv("./data/sellers_dataset.csv")
 
 # Customer
 def customer(asc):

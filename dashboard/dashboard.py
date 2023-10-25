@@ -349,8 +349,8 @@ if menu == "Users🧑":
 
     if geographical:
 
-        geometry = [Point(xy) for xy in zip(geo['geolocation_lng'], geo['geolocation_lat'])]
-        gdf = GeoDataFrame(geo, geometry=geometry)
+        geometry = [Point(xy) for xy in zip(geolocation['geolocation_lng'], geolocation['geolocation_lat'])]
+        gdf = GeoDataFrame(geolocation, geometry=geometry)
 
         fig, ax = plt.subplots(1, figsize=(8,10))
         ax.set_axis_on()
