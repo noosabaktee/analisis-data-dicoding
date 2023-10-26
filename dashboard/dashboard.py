@@ -66,29 +66,39 @@ if menu == "Home📊":
     ### Order terbaru
     """)
     newest_date, newest_value = newest_order()
-    col1, col2= st.columns(2)
+    col1, col2,col3 = st.columns(3)
     with col1:
-        st.metric("Date", value=newest_date)
-    with col2:
         st.metric("Value", value=newest_value)
+    with col2:
+        st.metric("Date", value=newest_date)
 
     asc = False
     st.write("""*Filter untuk tabel dibawah*""")
-    col1, col2 = st.columns(2)
-    with col1:
-        range = st.slider(
-            'Range Table', 0, 100, 5
-        )
-    with col2:
-        genre = st.radio(
+    genre = st.radio(
             label="Urutkan",
             options=('Atas', 'Bawah'),
         horizontal=False
         )
-        if genre == "Atas":
-            asc = False
-        elif genre == "Bawah":
-            asc = True
+    if genre == "Atas":
+        asc = False
+    elif genre == "Bawah":
+        asc = True
+    range = 5
+    # col1, col2 = st.columns(2)
+    # with col1:
+    #     range = st.slider(
+    #         'Range Table', 0, 100, 5
+    #     )
+    # with col2:
+    #     genre = st.radio(
+    #         label="Urutkan",
+    #         options=('Atas', 'Bawah'),
+    #     horizontal=False
+    #     )
+    #     if genre == "Atas":
+    #         asc = False
+    #     elif genre == "Bawah":
+    #         asc = True
 
     st.write(f"""
     ### Barang dengan penghasilan terbesar
@@ -101,7 +111,7 @@ if menu == "Home📊":
         st.metric("Paling besar", value="{:,.2f}".format(product_rev["revenue"].max()))
     with col3:
         st.metric("Paling kecil", value="{:,.2f}".format(product_rev["revenue"].min()))
-    st.dataframe(product_rev.head(5), width=700)
+    # st.dataframe(product_rev.head(5), width=700)
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
     sns.barplot(x="revenue", y="category", data=product_rev.head(),
@@ -109,9 +119,14 @@ if menu == "Home📊":
     st.pyplot(fig)
 
     st.write(f"""
-    ### Order terbanyak 
+    ### Order terbesar 
     """)
     list_order = order(asc)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Value", value="{:,.2f}".format(list_order.iloc[0]["value"]))
+    with col2:
+        st.metric("Date", value="{}".format(list_order.iloc[0]["date"]))
     col1, col2, col3= st.columns(3)
     with col1:
         st.metric("Rata-rata", value="{:,.2f}".format(list_order["value"].mean()))
@@ -119,12 +134,19 @@ if menu == "Home📊":
         st.metric("Paling besar", value="{:,.2f}".format(list_order["value"].max()))
     with col3:
         st.metric("Paling kecil", value="{:,.2f}".format(list_order["value"].min()))
-    st.dataframe(list_order.head(range), width=700)
+    # st.dataframe(list_order.head(range), width=700)
 
     st.write(f"""
     ### Ongkir terbesar 
     """)
     list_freight = freight(asc)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Price", value="{:,.2f}".format(list_freight.iloc[0]["price"]))
+    with col2:
+        st.metric("Freight", value="{:,.2f}".format(list_freight.iloc[0]["freight"]))
+    with col3:
+        st.metric("Date", value="{}".format(list_freight.iloc[0]["date"]))
     col1, col2, col3= st.columns(3)
     with col1:
         st.metric("Rata-rata", value="{:,.2f}".format(list_freight["freight"].mean()))
@@ -132,7 +154,7 @@ if menu == "Home📊":
         st.metric("Paling besar", value="{:,.2f}".format(list_freight["freight"].max()))
     with col3:
         st.metric("Paling kecil", value="{:,.2f}".format(list_freight["freight"].min()))
-    st.dataframe(list_freight.head(range), width=700)
+    # st.dataframe(list_freight.head(range), width=700)
 
 
     st.write("""
@@ -144,35 +166,44 @@ if menu == "Home📊":
     ax.pie(method.total, labels=method.method, colors=palette_color, explode=method.total/1000000, autopct='%.0f%%')
     st.pyplot(fig)
 
-    st.dataframe(method.head(), width=700)
+    # st.dataframe(method.head(), width=700)
 
 if menu == "Products👕":
     st.write("""
     # About Products👕
     """)
     st.write("""*Aktifkan filter untuk mengatur data*""")
-    filter = st.checkbox('Filter')
+    # filter = st.checkbox('Filter')
     asc = False
     table = False
     range = 0
-    if filter:
-        col1, col2 = st.columns(2)
+    genre = st.radio(
+            label="Urutkan",
+            options=('Atas', 'Bawah'),
+        horizontal=True
+        )
+    if genre == "Atas":
+        asc = False
+    elif genre == "Bawah":
+        asc = True
+    # if filter:
+        # col1, col2 = st.columns(2)
 
-        with col1:
-            table = st.checkbox('Show Table')
-            range = st.slider(
-                'Range Table', 0, 100, 5
-            )
-        with col2:
-            genre = st.radio(
-                label="Urutkan",
-                options=('Atas', 'Bawah'),
-            horizontal=False
-            )
-            if genre == "Atas":
-                asc = False
-            elif genre == "Bawah":
-                asc = True
+        # with col1:
+        #     table = st.checkbox('Show Table')
+        #     range = st.slider(
+        #         'Range Table', 0, 100, 5
+        #     )
+        # with col2:
+        #     genre = st.radio(
+        #         label="Urutkan",
+        #         options=('Atas', 'Bawah'),
+        #     horizontal=False
+        #     )
+        #     if genre == "Atas":
+        #         asc = False
+        #     elif genre == "Bawah":
+        #         asc = True
 
         
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Weight⚖️", "Favorit🛒", "Quantity🧮",
@@ -309,10 +340,10 @@ if menu == "Users🧑":
         # About Users🧑
     """)
 
-    table = st.checkbox('Show Table')
-    range = st.slider(
-        'Range Table', 0, 100, 5
-    )
+    # table = st.checkbox('Show Table')
+    # range = st.slider(
+    #     'Range Table', 0, 100, 5
+    # )
     asc = False
     genre = st.radio(
         label="Urutkan",
@@ -326,8 +357,8 @@ if menu == "Users🧑":
     
     st.header("Pembeli berdasarkan kota")
     data_customer = customer(asc)
-    if table:
-        st.dataframe(data_customer.head(range), width=700)
+    # if table:
+    #     st.dataframe(data_customer.head(range), width=700)
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
     sns.barplot(x="customers", y="city", data=data_customer.head(5),
@@ -336,8 +367,8 @@ if menu == "Users🧑":
 
     st.header("Penjual berdasarkan kota")
     data_seller = seller(asc)
-    if table:
-        st.dataframe(data_seller.head(range), width=700)
+    # if table:
+    #     st.dataframe(data_seller.head(range), width=700)
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
     sns.barplot(x="seller", y="city", data=data_seller.head(5),
